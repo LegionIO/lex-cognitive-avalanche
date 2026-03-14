@@ -70,11 +70,15 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Cascade do
 
   describe '#propagate!' do
     it 'increases magnitude by default 0.1' do
-      expect { cascade.propagate! }.to change(cascade, :magnitude).by(0.1)
+      before = cascade.magnitude
+      cascade.propagate!
+      expect(cascade.magnitude).to be_within(0.0001).of(before + 0.1)
     end
 
     it 'increases magnitude by given rate' do
-      expect { cascade.propagate!(0.2) }.to change(cascade, :magnitude).by(0.2)
+      before = cascade.magnitude
+      cascade.propagate!(0.2)
+      expect(cascade.magnitude).to be_within(0.0001).of(before + 0.2)
     end
 
     it 'clamps magnitude at 1.0' do
@@ -94,11 +98,15 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Cascade do
 
   describe '#dissipate!' do
     it 'decreases magnitude by default 0.08' do
-      expect { cascade.dissipate! }.to change(cascade, :magnitude).by(-0.08)
+      before = cascade.magnitude
+      cascade.dissipate!
+      expect(cascade.magnitude).to be_within(0.0001).of(before - 0.08)
     end
 
     it 'decreases magnitude by given rate' do
-      expect { cascade.dissipate!(0.1) }.to change(cascade, :magnitude).by(-0.1)
+      before = cascade.magnitude
+      cascade.dissipate!(0.1)
+      expect(cascade.magnitude).to be_within(0.0001).of(before - 0.1)
     end
 
     it 'clamps magnitude at 0.0' do
@@ -165,7 +173,7 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Cascade do
     it 'includes all expected keys' do
       h = cascade.to_h
       expect(h.keys).to include(:id, :cascade_type, :trigger_source, :magnitude, :magnitude_label,
-                                 :propagation_speed, :debris, :active, :started_at)
+                                :propagation_speed, :debris, :active, :started_at)
     end
 
     it 'reflects current active state' do

@@ -262,20 +262,13 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::AvalancheEngine 
       )[:snowpack_id]
 
       510.times do
-        engine.instance_variable_get(:@cascade_history) << \
-          Legion::Extensions::CognitiveAvalanche::Helpers::Cascade.new(
-            cascade_type:   :chaotic,
-            trigger_source: pack_id,
-            magnitude:      0.5
-          )
+        engine.send(:record_cascade,
+                    Legion::Extensions::CognitiveAvalanche::Helpers::Cascade.new(
+                      cascade_type:   :chaotic,
+                      trigger_source: pack_id,
+                      magnitude:      0.5
+                    ))
       end
-
-      engine.send(:record_cascade,
-                  Legion::Extensions::CognitiveAvalanche::Helpers::Cascade.new(
-                    cascade_type:   :analytical,
-                    trigger_source: pack_id,
-                    magnitude:      0.3
-                  ))
 
       expect(engine.cascade_history.size).to eq(500)
     end

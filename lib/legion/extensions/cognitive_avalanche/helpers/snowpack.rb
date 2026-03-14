@@ -32,6 +32,10 @@ module Legion
             @stability = (@stability + 0.05).clamp(0.0, 1.0).round(10)
           end
 
+          def melt!(rate = Constants::MELT_RATE)
+            @depth = (@depth - rate.abs).clamp(0.0, 1.0).round(10)
+          end
+
           def destabilize!(force)
             @stability = (@stability - force.abs).clamp(0.0, 1.0).round(10)
           end
@@ -58,17 +62,17 @@ module Legion
 
           def to_h
             {
-              id:            @id,
-              snowpack_type: @snowpack_type,
-              domain:        @domain,
-              content:       @content,
-              depth:         @depth,
-              stability:     @stability,
-              stable:        stable?,
-              unstable:      unstable?,
-              critical:      critical?,
+              id:              @id,
+              snowpack_type:   @snowpack_type,
+              domain:          @domain,
+              content:         @content,
+              depth:           @depth,
+              stability:       @stability,
+              stable:          stable?,
+              unstable:        unstable?,
+              critical:        critical?,
               stability_label: stability_label,
-              created_at:    @created_at
+              created_at:      @created_at
             }
           end
         end

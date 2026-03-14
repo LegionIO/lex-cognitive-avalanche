@@ -84,7 +84,9 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Snowpack do
   describe '#compact!' do
     it 'increases stability by 0.05' do
       sp = described_class.new(snowpack_type: :ideas, domain: :test, content: 'x', stability: 0.5)
-      expect { sp.compact! }.to change(sp, :stability).by(0.05)
+      before = sp.stability
+      sp.compact!
+      expect(sp.stability).to be_within(0.0001).of(before + 0.05)
     end
 
     it 'clamps stability at 1.0' do
@@ -97,7 +99,9 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Snowpack do
   describe '#destabilize!' do
     it 'reduces stability by force' do
       sp = described_class.new(snowpack_type: :ideas, domain: :test, content: 'x', stability: 0.8)
-      expect { sp.destabilize!(0.2) }.to change(sp, :stability).by(-0.2)
+      before = sp.stability
+      sp.destabilize!(0.2)
+      expect(sp.stability).to be_within(0.0001).of(before - 0.2)
     end
 
     it 'clamps stability at 0.0' do
@@ -182,7 +186,7 @@ RSpec.describe Legion::Extensions::CognitiveAvalanche::Helpers::Snowpack do
     it 'includes all expected keys' do
       h = snowpack.to_h
       expect(h.keys).to include(:id, :snowpack_type, :domain, :content, :depth, :stability,
-                                 :stable, :unstable, :critical, :stability_label, :created_at)
+                                :stable, :unstable, :critical, :stability_label, :created_at)
     end
 
     it 'reflects current stability state' do

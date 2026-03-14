@@ -65,7 +65,7 @@ module Legion
           def melt_all!(rate: Constants::MELT_RATE, **)
             count = 0
             @snowpacks.each_value do |pack|
-              pack.accumulate!(-rate)
+              pack.melt!(rate)
               count += 1
             end
             { success: true, packs_melted: count, rate: rate }
@@ -86,16 +86,16 @@ module Legion
             unstable_packs  = packs.select(&:unstable?)
 
             {
-              total_snowpacks:    packs.size,
-              critical_count:     critical_packs.size,
-              unstable_count:     unstable_packs.size,
-              stable_count:       packs.count(&:stable?),
-              active_cascades:    active_cascades.size,
-              cascade_history:    @cascade_history.size,
-              avg_stability:      avg_stability(packs),
-              avg_depth:          avg_depth(packs),
-              most_unstable_id:   most_unstable&.id,
-              recent_cascades:    recent_cascades(5)
+              total_snowpacks:  packs.size,
+              critical_count:   critical_packs.size,
+              unstable_count:   unstable_packs.size,
+              stable_count:     packs.count(&:stable?),
+              active_cascades:  active_cascades.size,
+              cascade_history:  @cascade_history.size,
+              avg_stability:    avg_stability(packs),
+              avg_depth:        avg_depth(packs),
+              most_unstable_id: most_unstable&.id,
+              recent_cascades:  recent_cascades(5)
             }
           end
 
