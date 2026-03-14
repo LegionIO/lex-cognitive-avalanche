@@ -5,7 +5,7 @@ module Legion
     module CognitiveAvalanche
       module Helpers
         module Constants
-          MAX_SNOWPACKS      = 100
+          MAX_SNOWPACKS = 100
           MAX_CASCADE_HISTORY = 500
           TRIGGER_THRESHOLD  = 0.75
           ACCUMULATION_RATE  = 0.06
